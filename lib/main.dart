@@ -1,9 +1,10 @@
 import 'package:chat_app_firebase/screens/bands_screen/bands_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-bool USE_FIRESTORE_EMULATOR = true;
+bool USE_FIRESTORE_EMULATOR = false;
 
 void main() async {
   //
@@ -11,8 +12,14 @@ void main() async {
   // initialized firebase
   await Firebase.initializeApp();
   if (USE_FIRESTORE_EMULATOR) {
+
+    String host = defaultTargetPlatform == TargetPlatform.android
+        ? '10.0.2.2:8080'
+        : 'localhost:8080';
+
     FirebaseFirestore.instance.settings = Settings(
-        host: 'localhost:8080', sslEnabled: false, persistenceEnabled: false);
+        host: host, sslEnabled: false, persistenceEnabled: false);
+
   }
   runApp(MyApp());
 }
